@@ -1,0 +1,75 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <title>ЛОИС №1</title>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet" type="text/css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.10.0/vis.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.10.0/vis.min.css" charset="utf-8">
+
+    <script src="page.js"></script>
+    <script src="rpn.js"></script>
+
+    <link rel="stylesheet" href="styles.css" charset="utf-8">
+</head>
+
+<body onload="loaded()">
+<div class="toolbar">
+    <div>Лабораторная работа №1, Вариант №6:
+    </div>
+</div>
+
+<div class="container">
+    <div class="headline typo-headline">
+        Проверить являются ли формулы равносильными.
+    </div>
+
+    <input
+            id="expression"
+            class="typo-code"
+            name="expression"
+            placeholder="Введите формулы"
+            onkeypress="onEnterPress(event)">
+
+    <div class="user-guide">
+        <div class="typo-code">
+            <div>! - отрицание</div>
+            <div>&amp; - конъюнкция</div>
+            <div>| - дизъюнкция</div>
+            <div>&gt; - ипликация</div>
+            <div>= - эквиваленция</div>
+            <div>( - открывающая скобка</div>
+            <div>) - закрывающая скобка</div>
+        </div>
+    </div>
+
+    <div class="is-equivalence typo-headline">
+        <div class="is">
+            <i class="material-icons">&#xE8DC;</i>
+            <span>Эти формулы равносильны</span>
+        </div>
+        <div class="is-not">
+            <i class="material-icons">&#xE8DB;</i>
+            <span>Эти формулы неравносильны</span>
+        </div>
+    </div>
+
+    <div class="table">
+        <div class="typo-headline">Построение истинностных таблиц</div>
+        <table
+                id="outcome-table"
+                class="typo-code"
+                border="1">
+        </table>
+    </div>
+</div>
+
+</body>
+
+</html>
