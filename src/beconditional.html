@@ -1,0 +1,124 @@
+﻿<!doctype html>
+
+<head>
+    <title>ЛОИС №1</title>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.10.0/vis.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.10.0/vis.min.css" charset="utf-8">
+
+    <script src="page.js"></script>
+    <script src="rpn.js"></script>
+
+    <link rel="stylesheet" href="styles.css" charset="utf-8">
+
+</head>
+
+<body onload="loaded()">
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+<div class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper">
+            <a href="" class="brand-logo center">Лабораторная работа №2, Вариант 6</a>
+            <ul class="left hide-on-med-and-down">
+                <li><a href="correctnessOfFormulas.html">Проверка на правильность</a></li>
+                <li><a href="beconditional.html">Проверка на равносильность</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="container">
+    <div class="headline typo-headline">
+        <span class="material-icons">label_outline</span><span></span>
+        <span>Проверить являются ли формулы равносильными:</span>
+    </div>
+
+    <div class="input">
+
+        <div class="inputA">
+            <input
+                    id="expression"
+                    class="typo-code"
+                    name="expression"
+                    placeholder="Введите формулу А"
+                    onkeypress="onEnterPress(event)">
+        </div>
+
+        <div class="inputB">
+            <input
+                    id="expressionTwo"
+                    class="typo-code"
+                    name="expressionTwo"
+                    placeholder="Введите формулу В"
+                    onkeypress="onEnterPress(event)">
+        </div>
+    </div>
+
+    <div class="user-guide">
+        <ul id="dropdown2" class="dropdown-content">
+
+                <li><a href="#!">Отрицание<span class="badge">!</span></a></li>
+                <li><a href="#!">Конъюнкция<span class="badge">&amp;</span></a></li>
+                <li><a href="#!">Дизъюнкция<span class="badge">|</span></a></li>
+                <li><a href="#!">Ипликация<span class="badge">&gt;</span></a></li>
+                <li><a href="#!">Эквиваленция<span class="badge">=</span></a></li>
+                <li><a href="#!">Откр. скобка<span class="badge">(</span></a></li>
+                <li><a href="#!">Закр. скобка<span class="badge">)</span></a></li>
+        </ul>
+
+        <a class="btn dropdown-button" href="#!" data-activates="dropdown2">Обозначения:<i class="material-icons right">arrow_drop_down</i></a>
+    </div>
+
+
+    <div class="is-equivalence typo-headline">
+        <div class="is">
+            <i class="material-icons">&#xE8DC;</i>
+            <span>Эти формулы равносильны</span>
+        </div>
+        <div class="is-not">
+            <i class="material-icons">&#xE8DB;</i>
+            <span>Эти формулы неравносильны</span>
+        </div>
+    </div>
+
+    <div class="table">
+        <div class="typo-headline">Построение истинностных таблиц</div>
+        <table
+                id="outcome-tableOne"
+                class="typo-code"
+                border="1">
+        </table>
+        <!--<table-->
+        <!--id="outcome-tableTwo"-->
+        <!--class="typo-code"-->
+        <!--border="1">-->
+        <!--</table>-->
+    </div>
+</div>
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="typo-headline">О лабораторной работе:</h5>
+                <p class="black-text text-lighten-4">В данной лабораторной работе проверяется, являются ли введенные
+                    формулы корректными и равносильными.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="typo-headline">GitHub:</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="http://github.com/indywka">indywka</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://github.com/MaxGavr">MaxGavr</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+
+</html>

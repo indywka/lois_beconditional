@@ -8,7 +8,7 @@ const MAX_VARS_TO_RENDER_TABLE = 100;
 
 function loaded() {
     $expression = document.querySelector('#expression');
-    $table = document.querySelector('#outcome-table');
+    $table = document.querySelector('#outcome-tableOne');
     $isEquivalence = document.querySelector('.is-equivalence .is');
     $isNotEquivalence = document.querySelector('.is-equivalence .is-not');
 }
@@ -78,7 +78,7 @@ function onCalculatePress() {
         result = calculateExpression(rpn, vars);
 
         // Check if the expression is equivalence
-        if (isEquivalence && result === 1) {
+        if (isEquivalence || result === 0) {
             isEquivalence = false;
         }
 
@@ -100,6 +100,7 @@ function onCalculatePress() {
         }
     }
     console.timeEnd('calculations');
+
 
     if (isEquivalence) {
         $isEquivalence.style.display = 'block';
