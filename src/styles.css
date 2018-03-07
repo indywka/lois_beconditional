@@ -14,7 +14,7 @@ body {
     height: 64px;
     margin-bottom: 16px;
 
-    background-color: #8BC34A;
+    background-color: #82D648;
     box-shadow: 0 4px 5px #888888;
 
     font-size: 34px;
@@ -55,13 +55,13 @@ body {
 .inputA {
     float: left;
     position: relative;
-    left: 40px;
+    left: 30px;
 }
 
 .inputB {
     float: right;
     position: relative;
-    right: 40px;
+    right: 500px;
 }
 
 .typo-headline {
@@ -85,18 +85,18 @@ body {
 
 input {
     font-size: 24px;
-
     margin-left: 15px;
     margin-right: 15px;
 }
 
 .user-guide {
     padding: 15px;
-
+    margin-left: 5px;
     margin-top: 15px;
+    margin-right: 5px;;
     margin-bottom: 15px;
 
-    background-color: #F1F8E9;
+    background-color: #82D648;
 }
 
 .user-guide > .notice {

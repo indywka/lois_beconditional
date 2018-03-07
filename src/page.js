@@ -1,36 +1,36 @@
-﻿let $expression;
+﻿let $firstExpression;
+let $secondExpression;
+
 let $table;
+
 let $isEquivalence;
 let $isNotEquivalence;
+
 
 const MAX_VARS_TO_RENDER_TABLE = 100;
 
 
 function loaded() {
-    $expression = document.querySelector('#expression');
+    $firstExpression = document.querySelector('#firstExpression');
+    $secondExpression = document.querySelector('#secondExpression');
+
     $table = document.querySelector('#outcome-tableOne');
     $isEquivalence = document.querySelector('.is-equivalence .is');
     $isNotEquivalence = document.querySelector('.is-equivalence .is-not');
 }
 
-function onEnterPress(e) {
-    if (e.keyCode === 13) {
-        onCalculatePress();
-    }
-    return false;
-}
 
 function onCalculatePress() {
-    const val = $expression.value;
-    if (val === '') {
-        window.alert('Формула не может быть пуста!');
+    const valFirst = $firstExpression.value;
+    const valSecond = $secondExpression.value;
+    if ((valFirst && valSecond) === "") {
+        window.alert("Одно/два поля для ввода не заполнены!");
         return;
     }
-
     document.querySelector('.is-equivalence').style.display = 'block';
     document.querySelector('.table').style.display = 'block';
 
-    const rpn = convertToRpn(val);
+    const rpn = convertToRpn(valFirst);
     const varList = getVariableInfo(rpn);
     const combinations = (1 << varList.length);
 
