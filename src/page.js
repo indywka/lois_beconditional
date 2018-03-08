@@ -21,8 +21,8 @@ function loaded() {
 
 
 function onCalculatePress() {
-    const valFirst = $firstExpression.value;
-    const valSecond = $secondExpression.value;
+    let valFirst = $firstExpression.value.toString();
+    let valSecond = $secondExpression.value.toString();
     if ((valFirst && valSecond) === "") {
         window.alert("Одно/два поля для ввода не заполнены!");
         return;
@@ -30,7 +30,10 @@ function onCalculatePress() {
     document.querySelector('.is-equivalence').style.display = 'block';
     document.querySelector('.table').style.display = 'block';
 
-    const rpn = convertToRpn(valFirst);
+    const expression = (valFirst + '=' + valSecond);
+
+    window.alert(expression);
+    const rpn = convertToRpn(expression);
     const varList = getVariableInfo(rpn);
     const combinations = (1 << varList.length);
 
