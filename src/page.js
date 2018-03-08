@@ -1,7 +1,8 @@
 ﻿let $firstExpression;
 let $secondExpression;
 
-let $table;
+let $firstTable;
+let $secondTable;
 
 let $isEquivalence;
 let $isNotEquivalence;
@@ -14,7 +15,9 @@ function loaded() {
     $firstExpression = document.querySelector('#firstExpression');
     $secondExpression = document.querySelector('#secondExpression');
 
-    $table = document.querySelector('#outcome-tableOne');
+    $firstTable = document.querySelector('#outcome-tableOne');
+    $secondTable = document.querySelector('#outcome-tableTwo');
+
     $isEquivalence = document.querySelector('.is-equivalence .is');
     $isNotEquivalence = document.querySelector('.is-equivalence .is-not');
 }
@@ -30,9 +33,8 @@ function onCalculatePress() {
     document.querySelector('.is-equivalence').style.display = 'block';
     document.querySelector('.table').style.display = 'block';
 
-    const expression = (valFirst + '=' + valSecond);
+    const expression = (valFirst + '~' + valSecond);
 
-    window.alert(expression);
     const rpn = convertToRpn(expression);
     const varList = getVariableInfo(rpn);
     const combinations = (1 << varList.length);
@@ -54,9 +56,9 @@ function onCalculatePress() {
         }
 
         tableHtml += '<th>Результат</th></tr>';
-        $table.innerHTML = tableHtml;
+        $firstTable.innerHTML = tableHtml;
     } else {
-        $table.innerHTML = '';
+        $firstTable.innerHTML = '';
     }
 
     // Check for all possible combinations
@@ -87,7 +89,7 @@ function onCalculatePress() {
 
         // Add result to the array
         if (varList.length < MAX_VARS_TO_RENDER_TABLE) {
-            row = $table.insertRow();
+            row = $firstTable.insertRow();
 
             if (result === 1) {
                 row.className = 'true';
@@ -112,15 +114,4 @@ function onCalculatePress() {
         $isEquivalence.style.display = 'none';
         $isNotEquivalence.style.display = 'block';
     }
-}
-
-function matrixArray(rows, columns) {
-    let arr = [];
-    for (let i = 0; i < rows; i++) {
-        arr[i] = [];
-        for (let j = 0; j < columns; j++) {
-            arr[i][j] = i + j + 1;//вместо i+j+1 пишем любой наполнитель. В простейшем случае - null
-        }
-    }
-    return arr;
 }
