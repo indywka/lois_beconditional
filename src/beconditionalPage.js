@@ -67,7 +67,7 @@ function onCalculatePress() {
             tableHtml += `<th>${varList[i]}</th>`;
         }
 
-        tableHtml += '<th>Результат</th></tr>';
+        tableHtml += `<th>${equivalence}</th></tr>`;
         $firstTable.innerHTML = tableHtml;
     } else {
         $firstTable.innerHTML = '';
