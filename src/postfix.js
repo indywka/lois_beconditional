@@ -5,8 +5,10 @@ const LEFT_BRACKET = '(';
 const RIGHT_BRACKET = ')';
 
 
+// map of available operators
 let operators = new Map();
 
+// fill operators map with basic logical operations
 function initOperators() {
     let conjunction = {isBinary: true, func: (x, y) => { return +(x && y); }};
     operators.set("&");
@@ -25,13 +27,13 @@ function initOperators() {
 }
 
 
+// escape special regex symbols in the given string
 function escapeRegExp(input) {
     return input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-// construct regexp for splitting formula into tokens
+// construct regexp for splitting logical formula into tokens
 function getOperatorsRegExp() {
-    
     // add brackets
     let regex = LEFT_BRACKET + RIGHT_BRACKET;
 
@@ -146,5 +148,3 @@ function getVariables(postfix) {
 
     return variables;
 }
-
-
