@@ -77,7 +77,7 @@ function onCalculatePress() {
         // create vars object with <varName>:<value> pairs
         let vars = {};
         for (let i = 0; i < varList.length; i++) {
-            vars[varList[i]] = combination[i];
+            vars[varList[i]] = +combination[i];
         }
 
         // calculate the result

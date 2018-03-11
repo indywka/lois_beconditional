@@ -22,7 +22,7 @@ function initOperators() {
     let equivalence = {isBinary: true, func: (x, y) => { return +(x === y); }};
     operators.set("~", equivalence);
 
-    let negation = {isBinary: true, func: (x) => { return !x; }};
+    let negation = {isBinary: false, func: (x) => { return +(!x); }};
     operators.set("!", negation);
 }
 
@@ -115,7 +115,7 @@ function calculatePostfix(postfix, variables) {
         let symbol = postfix[i];
 
         if (symbol.match(ATOMS)) {
-            stack.push(+(variables[symbol]));
+            stack.push(variables[symbol]);
         } else {
             let a, b;
             let operator = operators.get(symbol);
