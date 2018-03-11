@@ -24,11 +24,20 @@ function loaded() {
 
 
 function onCalculatePress() {
-    let valFirst = $firstExpression.value.toString();
-    let valSecond = $secondExpression.value.toString();
+    const valFirst = $firstExpression.value.toString();
+    const valSecond = $secondExpression.value.toString();
 
     if ((valFirst && valSecond) === "") {
         window.alert("Одно/два поля для ввода не заполнены!");
+        return;
+    }
+
+    // check formulas correctness
+    if (!checkFormulaCorrectness(valFirst)) {
+        window.alert("Формула №1 некорректна!")
+        return;
+    } else if (!checkFormulaCorrectness(valSecond)) {
+        window.alert("Формула №2 некорректна!");
         return;
     }
 
@@ -66,8 +75,6 @@ function onCalculatePress() {
 
     // check for all possible combinations
     let isEquivalence = true;
-    let row;
-    let resultCell;
 
     console.time('calculations');
 
@@ -90,7 +97,7 @@ function onCalculatePress() {
 
         // add result to the table
         if (varList.length < MAX_VARS_TO_RENDER_TABLE) {
-            row = $firstTable.insertRow();
+            let row = $firstTable.insertRow();
 
             if (result === 1) {
                 row.className = 'true';
@@ -100,7 +107,7 @@ function onCalculatePress() {
                 row.insertCell().innerHTML = vars[varList[i]];
             }
 
-            resultCell = row.insertCell();
+            let resultCell = row.insertCell();
             resultCell.innerHTML = result;
             resultCell.className = 'result';
         }

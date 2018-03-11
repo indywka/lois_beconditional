@@ -110,14 +110,16 @@ function convertToPostfix(input) {
 function calculatePostfix(postfix, variables) {
     let stack = [];
 
-    for (let i = 0; i < postfix.length; i++) {
-        let symbol = postfix[i];
+    for (let token of postfix) {
+        if (token.match(new RegExp(ATOMS))) {
+            stack.push(variables[token]);
 
-        if (symbol.match(new RegExp(ATOMS + "|" + CONSTANTS))) {
-            stack.push(variables[symbol]);
+        } else if (token.match(new RegExp(CONSTANTS))) {
+            stack.push(+token);
+            
         } else {
             let a, b;
-            let operator = operators.get(symbol);
+            let operator = operators.get(token);
 
             if (operator.isBinary) {
                 a = stack.pop();
