@@ -120,6 +120,23 @@ input {
     display: none;
 }
 
+.is-correct {
+    margin: 25px;
+    font-size: 34px;
+
+    display: none;
+}
+
+.is-correct .is {
+    color: #4CAF50;
+    display: none;
+}
+
+.is-correct .is-not {
+    color: #F44336;
+    display: none;
+}
+
 .table {
     margin: 15px;
     display: none;
