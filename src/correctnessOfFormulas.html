@@ -12,13 +12,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.10.0/vis.min.css" charset="utf-8">
 
     <script src="correctnessPage.js"></script>
-    <script src="postfix.js"></script>
+    <script src="logic.js"></script>
 
     <link rel="stylesheet" href="styles.css" charset="utf-8">
 
 </head>
 
-<body onload="loaded()">
+<body onload="pageLoaded()">
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
@@ -45,8 +45,7 @@
                     id="expression"
                     class="typo-code"
                     name="expression"
-                    placeholder="Введите формулу, которую необходимо проверить"
-                    onkeypress="onEnterPress(event)">
+                    placeholder="Введите формулу, которую необходимо проверить">
         </div>
     </div>
 

@@ -1,5 +1,6 @@
 
-const ATOMS = /[A-Z]/;
+const ATOMS = "[A-Z]";
+const CONSTANTS = "[10]";
 
 const LEFT_BRACKET = '(';
 const RIGHT_BRACKET = ')';
@@ -11,7 +12,7 @@ let operators = new Map();
 // fill operators map with basic logical operations
 function initOperators() {
     let conjunction = {isBinary: true, func: (x, y) => { return +(x && y); }};
-    operators.set("&");
+    operators.set("&", conjunction);
 
     let disjunction = {isBinary: true, func: (x, y) => { return +(x || y); }};
     operators.set("|", disjunction);
@@ -53,9 +54,7 @@ function getOperatorsRegExp() {
         }
     }
 
-    regex = "(" + regex + ")";
-
-    return new RegExp(regex);
+    return regex;
 }
 
 
@@ -69,7 +68,7 @@ function convertToPostfix(input) {
     input = input.replace(/\s+/g, '');
 
     // split formula into tokens
-    input = input.split(getOperatorsRegExp());
+    input = input.split(new RegExp("(" + getOperatorsRegExp() + ")"));
 
     // remove empty strings
     input = input.filter((token) => { return token != ''; });
@@ -77,7 +76,7 @@ function convertToPostfix(input) {
     // convert to postfix
     for (let token of input) {
 
-        if (token.match(ATOMS)) {
+        if (token.match(new RegExp(ATOMS + "|" + CONSTANTS))) {
             queue.push(token);
         } else if (operators.has(token)) {
             let operator1 = token;
@@ -114,7 +113,7 @@ function calculatePostfix(postfix, variables) {
     for (let i = 0; i < postfix.length; i++) {
         let symbol = postfix[i];
 
-        if (symbol.match(ATOMS)) {
+        if (symbol.match(new RegExp(ATOMS + "|" + CONSTANTS))) {
             stack.push(variables[symbol]);
         } else {
             let a, b;
@@ -141,10 +140,40 @@ function getVariables(postfix) {
     let variables = [];
 
     for (let token of postfix) {
-        if (token.match(ATOMS) && !variables.includes(token)) {
+        if (token.match(new RegExp(ATOMS)) && !variables.includes(token)) {
             variables.push(token);
         }
     }
 
     return variables;
+}
+
+function checkFormulaCorrectness(formula) {
+    initOperators();
+
+    // remove whitespaces
+    formula = formula.replace(/\s+/g, '');
+
+    // replace all atoms and constants with test symbol
+    const testSymbol = "A";
+    formula = formula.replace(new RegExp(CONSTANTS + "|" + ATOMS, "g"), testSymbol);
+
+    // construct regexp that matches valid logical formulas
+    let formulas = [];
+    for (let [symbol, operator] of operators.entries()) {
+        if (operator.isBinary) {
+            formulas.push("(?:" + escapeRegExp(LEFT_BRACKET + testSymbol + symbol + testSymbol + RIGHT_BRACKET) + ")");
+        } else {
+            formulas.push("(?:" + escapeRegExp(LEFT_BRACKET + symbol + testSymbol + RIGHT_BRACKET) + ")");
+        }
+    }
+    let formulasRegExp = new RegExp(formulas.join("|"), "g");
+
+    // keep removing valid operations from formula while this can be performed
+    while (formulasRegExp.test(formula)) {
+        formula = formula.replace(formulasRegExp, testSymbol);
+    }
+
+    // if formula is valid, there should be only single test symbol left
+    return formula == testSymbol;
 }

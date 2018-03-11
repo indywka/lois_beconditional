@@ -3,7 +3,7 @@ let $expression;
 let $isCorrect;
 let $isNotCorrect;
 
-function loaded() {
+function pageLoaded() {
     $expression = document.querySelector('#expression');
 
     $isCorrect = document.querySelector('.is-correct .is');
