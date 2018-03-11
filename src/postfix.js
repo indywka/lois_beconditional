@@ -1,42 +1,87 @@
 
-const BINARY_OPERATORS = ['&', '|', '~', '>'];
-const UNARY_OPERATORS = ['!'];
+const ATOMS = /[A-Z]/;
+
 const LEFT_BRACKET = '(';
 const RIGHT_BRACKET = ')';
 
-const OPERATORS = BINARY_OPERATORS.concat(UNARY_OPERATORS);
-const BRACKETS = [LEFT_BRACKET, RIGHT_BRACKET];
 
-const ATOMS = /[A-Z]/;
+let operators = new Map();
+
+function initOperators() {
+    let conjunction = {isBinary: true, func: (x, y) => { return +(x && y); }};
+    operators.set("&");
+
+    let disjunction = {isBinary: true, func: (x, y) => { return +(x || y); }};
+    operators.set("|", disjunction);
+
+    let implication = {isBinary: true, func: (x, y) => { return +((!x) || y); }};
+    operators.set("->", implication);
+
+    let equivalence = {isBinary: true, func: (x, y) => { return +(x === y); }};
+    operators.set("~", equivalence);
+
+    let negation = {isBinary: true, func: (x) => { return !x; }};
+    operators.set("!", negation);
+}
+
+
+function escapeRegExp(input) {
+    return input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// construct regexp for splitting formula into tokens
+function getOperatorsRegExp() {
+    
+    // add brackets
+    let regex = LEFT_BRACKET + RIGHT_BRACKET;
+
+    // add single-character operators first
+    for (let operator of operators.keys()) {
+        if (operator.length == 1) {
+            regex += operator;
+        }
+    }
+
+    regex = "[" + escapeRegExp(regex) + "]";
+
+    // then add multiple-character operators
+    for (let operator of operators.keys()) {
+        if (operator.length > 1) {
+            regex += "|" + escapeRegExp(operator);
+        }
+    }
+
+    regex = "(" + regex + ")";
+
+    return new RegExp(regex);
+}
+
 
 // convert infix notation to postfix notation
 function convertToPostfix(input) {
+    initOperators();
+
     let queue = [];
     let stack = [];
 
     input = input.replace(/\s+/g, '');
-    // TODO: replace with BINARY_OPERATORS
-    delimiters = new RegExp("([" + "\\" + OPERATORS.concat(BRACKETS).join("\\") + "])");
-    input = input.split(delimiters);
 
-    // remove whitespaces
-    for (let i = 0; i < input.length; i++) {
-        if (input[i] === '') {
-            input.splice(i, 1);
-        }
-    }
+    // split formula into tokens
+    input = input.split(getOperatorsRegExp());
+
+    // remove empty strings
+    input = input.filter((token) => { return token != ''; });
 
     // convert to postfix
-    for (let i = 0; i < input.length; i++) {
-        let token = input[i];
+    for (let token of input) {
 
         if (token.match(ATOMS)) {
             queue.push(token);
-        } else if (OPERATORS.includes(token)) {
+        } else if (operators.has(token)) {
             let operator1 = token;
             let operator2 = stack[stack.length - 1];
 
-            while (OPERATORS.includes(operator2)) {
+            while (operators.has(operator2)) {
                 queue.push(stack.pop());
                 operator2 = stack[stack.length - 1];
             }
@@ -64,43 +109,24 @@ function convertToPostfix(input) {
 function calculatePostfix(postfix, variables) {
     let stack = [];
 
-    // Calculate
     for (let i = 0; i < postfix.length; i++) {
         let symbol = postfix[i];
 
         if (symbol.match(ATOMS)) {
             stack.push(+(variables[symbol]));
         } else {
-            let a;
-            let b;
+            let a, b;
+            let operator = operators.get(symbol);
 
-            switch (symbol) {
-                case '&':
-                    a = stack.pop();
-                    b = stack.pop();
-                    stack.push(b && a);
-                    break;
-                case '|':
-                    a = stack.pop();
-                    b = stack.pop();
-                    stack.push(b || a);
-                    break;
-                case '~':
-                    a = stack.pop();
-                    b = stack.pop();
-                    stack.push(+(b === a));
-                    break;
-                case '>':
-                    a = stack.pop();
-                    b = +(!(stack.pop()));
-                    stack.push(+(b || a));
-                    break;
-                case '!':
-                    a = stack.pop();
-                    stack.push(+(!a));
-                    break;
-                default:
-                    break;
+            if (operator.isBinary) {
+                a = stack.pop();
+                b = stack.pop();
+
+                stack.push(operator.func(b, a));
+            } else {
+                a = stack.pop();
+
+                stack.push(operator.func(a));
             }
         }
     }
@@ -112,11 +138,9 @@ function calculatePostfix(postfix, variables) {
 function getVariables(postfix) {
     let variables = [];
 
-    for (let i = 0; i < postfix.length; i++) {
-        let token = postfix[i];
-        
+    for (let token of postfix) {
         if (token.match(ATOMS) && !variables.includes(token)) {
-            variables.push(postfix[i]);
+            variables.push(token);
         }
     }
 
