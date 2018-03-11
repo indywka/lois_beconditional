@@ -11,8 +11,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.10.0/vis.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.10.0/vis.min.css" charset="utf-8">
 
-    <script src="page.js"></script>
-    <script src="rpn.js"></script>
+    <script src="correctnessPage.js"></script>
+    <script src="postfix.js"></script>
 
     <link rel="stylesheet" href="styles.css" charset="utf-8">
 
@@ -36,30 +36,46 @@
 <div class="container">
     <div class="headline typo-headline">
         <span class="material-icons">label_outline</span><span></span>
-        <span>Проверить являются ли формулы корректными:</span>
+        <span>Проверить, является ли формула корректной формулой логики высказываний:</span>
     </div>
 
     <div class="input">
-
         <div class="inputA">
             <input
                     id="expression"
                     class="typo-code"
                     name="expression"
-                    placeholder="Введите формулу А"
+                    placeholder="Введите формулу, которую необходимо проверить"
                     onkeypress="onEnterPress(event)">
         </div>
     </div>
 
+    <div class="user-guide">
+        <ul id="dropdown2" class="dropdown-content">
 
-    <div class="is-equivalence typo-headline">
+            <li><a href="#!">Отрицание<span class="badge">!</span></a></li>
+            <li><a href="#!">Конъюнкция<span class="badge">&amp;</span></a></li>
+            <li><a href="#!">Дизъюнкция<span class="badge">|</span></a></li>
+            <li><a href="#!">Импликация<span class="badge">-&gt;</span></a></li>
+            <li><a href="#!">Эквиваленция<span class="badge">~</span></a></li>
+            <li><a href="#!">Откр. скобка<span class="badge">(</span></a></li>
+            <li><a href="#!">Закр. скобка<span class="badge">)</span></a></li>
+        </ul>
+
+        <a class="btn dropdown-button" href="#!" data-activates="dropdown2">Обозначения:<i
+                class="material-icons center">arrow_drop_down</i></a>
+
+        <input value="ПРОВЕРИТЬ" onclick="onCheckCorrectness()" type="button"/>
+    </div>
+
+    <div class="is-correct typo-headline">
         <div class="is">
             <i class="material-icons">&#xE8DC;</i>
-            <span>Эти формулы корректны</span>
+            <span>Формула корректна</span>
         </div>
         <div class="is-not">
             <i class="material-icons">&#xE8DB;</i>
-            <span>Эти формулы некорректны</span>
+            <span>Формула некорректна</span>
         </div>
     </div>
 
@@ -70,13 +86,12 @@
         <div class="row">
             <div class="col l6 s12">
                 <h5 class="typo-headline">О лабораторной работе:</h5>
-                <p class="black-text text-lighten-4">В данной лабораторной работе проверяется, являются ли введенные
-                    формулы равносильными.</p>
+                <p class="black-text text-lighten-4">В данной лабораторной работе проверяется, является ли введенная формула корректной формулой логики высказываний.</p>
             </div>
             <div class="col l4 offset-l2 s12">
                 <h5 class="typo-headline">GitHub:</h5>
                 <ul>
-                    <li><a class="grey-text text-lighten-3" href="http://github.com/indywka">indywka</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://github.com/indywka">indywka</a></li>
                     <li><a class="grey-text text-lighten-3" href="https://github.com/MaxGavr">MaxGavr</a></li>
                 </ul>
             </div>
