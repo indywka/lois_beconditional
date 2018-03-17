@@ -1,3 +1,5 @@
+<!--@author: Gavriluk  -->
+
 let $expression;
 
 let $isCorrect;

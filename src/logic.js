@@ -1,3 +1,4 @@
+<!--@author: Gavriluk & Minchik -->
 
 const ATOMS = "[A-Z]";
 const CONSTANTS = "[10]";
@@ -11,22 +12,41 @@ let operators = new Map();
 
 // fill operators map with basic logical operations
 function initOperators() {
-    let conjunction = {isBinary: true, func: (x, y) => { return +(x && y); }};
+    let conjunction = {
+        isBinary: true, func: (x, y) => {
+            return +(x && y);
+        }
+    };
     operators.set("&", conjunction);
 
-    let disjunction = {isBinary: true, func: (x, y) => { return +(x || y); }};
+    let disjunction = {
+        isBinary: true, func: (x, y) => {
+            return +(x || y);
+        }
+    };
     operators.set("|", disjunction);
 
-    let implication = {isBinary: true, func: (x, y) => { return +((!x) || y); }};
+    let implication = {
+        isBinary: true, func: (x, y) => {
+            return +((!x) || y);
+        }
+    };
     operators.set("->", implication);
 
-    let equivalence = {isBinary: true, func: (x, y) => { return +(x === y); }};
+    let equivalence = {
+        isBinary: true, func: (x, y) => {
+            return +(x === y);
+        }
+    };
     operators.set("~", equivalence);
 
-    let negation = {isBinary: false, func: (x) => { return +(!x); }};
+    let negation = {
+        isBinary: false, func: (x) => {
+            return +(!x);
+        }
+    };
     operators.set("!", negation);
 }
-
 
 // escape special regex symbols in the given string
 function escapeRegExp(input) {
@@ -57,7 +77,6 @@ function getOperatorsRegExp() {
     return regex;
 }
 
-
 // convert infix notation to postfix notation
 function convertToPostfix(input) {
     initOperators();
@@ -71,7 +90,9 @@ function convertToPostfix(input) {
     input = input.split(new RegExp("(" + getOperatorsRegExp() + ")"));
 
     // remove empty strings
-    input = input.filter((token) => { return token != ''; });
+    input = input.filter((token) => {
+        return token != '';
+    });
 
     // convert to postfix
     for (let token of input) {
@@ -116,7 +137,7 @@ function calculatePostfix(postfix, variables) {
 
         } else if (token.match(new RegExp(CONSTANTS))) {
             stack.push(+token);
-            
+
         } else {
             let a, b;
             let operator = operators.get(token);

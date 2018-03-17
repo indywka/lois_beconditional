@@ -1,3 +1,5 @@
+<!--@author: Gavriluk & Minchik -->
+
 <!doctype html>
 
 <head>
@@ -25,7 +27,7 @@
 <div class="navbar-fixed">
     <nav>
         <div class="nav-wrapper">
-            <a href="" class="brand-logo center">Лабораторная работа №1, Вариант b</a>
+            <a href="" class="brand-logo center"></a>
             <ul class="left hide-on-med-and-down">
                 <li><a href="correctnessOfFormulas.html">Проверка на правильность</a></li>
                 <li><a href="beconditional.html">Проверка на равносильность</a></li>
@@ -36,7 +38,7 @@
 <div class="container">
     <div class="headline typo-headline">
         <span class="material-icons">label_outline</span><span></span>
-        <span>Проверить, является ли формула корректной формулой логики высказываний:</span>
+        <span>Проверить, является ли строка формулой логики высказываний:</span>
     </div>
 
     <div class="input">
@@ -45,7 +47,7 @@
                     id="expression"
                     class="typo-code"
                     name="expression"
-                    placeholder="Введите формулу для проверки">
+                    placeholder="Введите строку для проверки">
         </div>
     </div>
 
@@ -64,39 +66,21 @@
         <a class="btn dropdown-button" href="#!" data-activates="dropdown2">Обозначения:<i
                 class="material-icons center">arrow_drop_down</i></a>
 
-        <input value="ПРОВЕРИТЬ" onclick="onCheckCorrectness()" type="button"/>
+        <button class="btn waves-effect waves-light" onclick="onCheckCorrectness()" type="button" name="action">
+            Проверить
+            <i class="material-icons right"></i>
+        </button>
     </div>
 
     <div class="is-correct typo-headline">
         <div class="is">
             <i class="material-icons">&#xE8DC;</i>
-            <span>Формула корректна</span>
+            <span>Строка является формулой логики высказываний</span>
         </div>
         <div class="is-not">
             <i class="material-icons">&#xE8DB;</i>
-            <span>Формула некорректна</span>
+            <span>Строка НЕ является формулой логики высказываний</span>
         </div>
     </div>
-
-
 </div>
-<footer class="page-footer">
-    <div class="container">
-        <div class="row">
-            <div class="col l6 s12">
-                <h5 class="typo-headline">О лабораторной работе:</h5>
-                <p class="black-text text-lighten-4">В данной лабораторной работе проверяется, является ли введенная формула корректной формулой логики высказываний.</p>
-            </div>
-            <div class="col l4 offset-l2 s12">
-                <h5 class="typo-headline">GitHub:</h5>
-                <ul>
-                    <li><a class="grey-text text-lighten-3" href="https://github.com/indywka">indywka</a></li>
-                    <li><a class="grey-text text-lighten-3" href="https://github.com/MaxGavr">MaxGavr</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
 </body>
-
-</html>
