@@ -24,25 +24,37 @@ function loaded() {
 
 
 function onCalculatePress() {
-    let valFirst = $firstExpression.value.toString();
-    let valSecond = $secondExpression.value.toString();
+    const valFirst = $firstExpression.value.toString();
+    const valSecond = $secondExpression.value.toString();
+
     if ((valFirst && valSecond) === "") {
         window.alert("Одно/два поля для ввода не заполнены!");
         return;
     }
+
+    // check formulas correctness
+    if (!checkFormulaCorrectness(valFirst)) {
+        window.alert("Формула №1 некорректна!")
+        return;
+    } else if (!checkFormulaCorrectness(valSecond)) {
+        window.alert("Формула №2 некорректна!");
+        return;
+    }
+
     document.querySelector('.is-equivalence').style.display = 'block';
     document.querySelector('.table').style.display = 'block';
 
-    const expression = (valFirst + '~' + valSecond);
+    const equivalence = (valFirst + '~' + valSecond);
 
-    const rpn = convertToRpn(expression);
-    const varList = getVariableInfo(rpn);
-    const combinations = (1 << varList.length);
+    const postfix = convertToPostfix(equivalence);
+    const varList = getVariables(postfix);
 
-    const decToBin = (dec) => {
+    const nCombinations = (1 << varList.length);
+
+    const decimalToBinary = (dec) => {
         let bin = (dec >>> 0).toString(2);
 
-        // Add leading zeros
+        // add leading zeros
         while (bin.length !== varList.length) {
             bin = '0' + bin;
         }
@@ -55,41 +67,37 @@ function onCalculatePress() {
             tableHtml += `<th>${varList[i]}</th>`;
         }
 
-        tableHtml += '<th>Результат</th></tr>';
+        tableHtml += `<th>${equivalence}</th></tr>`;
         $firstTable.innerHTML = tableHtml;
     } else {
         $firstTable.innerHTML = '';
     }
 
-    // Check for all possible combinations
+    // check for all possible combinations
     let isEquivalence = true;
-    let vars = {};
-    let bin;
-    let result;
-    let row;
-    let resultCell;
 
     console.time('calculations');
 
-    for (let current = 0; current < combinations; current++) {
-        bin = decToBin(current);
+    for (let current = 0; current < nCombinations; current++) {
+        let combination = decimalToBinary(current);
 
-        // Create vars object with <varName>:<value> pairs
+        // create vars object with <varName>:<value> pairs
+        let vars = {};
         for (let i = 0; i < varList.length; i++) {
-            vars[varList[i]] = bin[i];
+            vars[varList[i]] = +combination[i];
         }
 
-        // Calculate the result
-        result = calculateExpression(rpn, vars);
+        // calculate the result
+        let result = calculatePostfix(postfix, vars);
 
-        // Check if the expression is equivalence
-        if (isEquivalence || result === 0) {
+        // check if the expression is equivalence
+        if (result === 0) {
             isEquivalence = false;
         }
 
-        // Add result to the array
+        // add result to the table
         if (varList.length < MAX_VARS_TO_RENDER_TABLE) {
-            row = $firstTable.insertRow();
+            let row = $firstTable.insertRow();
 
             if (result === 1) {
                 row.className = 'true';
@@ -99,7 +107,7 @@ function onCalculatePress() {
                 row.insertCell().innerHTML = vars[varList[i]];
             }
 
-            resultCell = row.insertCell();
+            let resultCell = row.insertCell();
             resultCell.innerHTML = result;
             resultCell.className = 'result';
         }
