@@ -4,7 +4,6 @@ let $firstExpression;
 let $secondExpression;
 
 let $firstTable;
-let $secondTable;
 
 let $isEquivalence;
 let $isNotEquivalence;
@@ -17,7 +16,6 @@ function loaded() {
     $secondExpression = document.querySelector('#secondExpression');
 
     $firstTable = document.querySelector('#outcome-tableOne');
-    $secondTable = document.querySelector('#outcome-tableTwo');
 
     $isEquivalence = document.querySelector('.is-equivalence .is');
     $isNotEquivalence = document.querySelector('.is-equivalence .is-not');
@@ -26,12 +24,10 @@ function loaded() {
 function onCalculatePress() {
     const valFirst = $firstExpression.value.toString();
     const valSecond = $secondExpression.value.toString();
-
     if ((valFirst && valSecond) === "") {
         window.alert("Одно/два поля для ввода не заполнены!");
         return;
     }
-
     // check formulas correctness
     if (!checkFormulaCorrectness(valFirst)) {
         window.alert("Формула №1 некорректна!");
@@ -40,40 +36,21 @@ function onCalculatePress() {
         window.alert("Формула №2 некорректна!");
         return;
     }
-
     document.querySelector('.is-equivalence').style.display = 'block';
-
+    document.querySelector('.table').style.display = 'block';
     const equivalence = (valFirst + '~' + valSecond);
-
     const postfix = convertToPostfix(equivalence);
     const varList = getVariables(postfix);
     const nCombinations = (1 << varList.length);
-
-    const decimalToBinary = (dec) => {
-        let bin = dec.toString(2);
-
-        // add leading zeros
-        while (bin.length !== varList.length) {
-            bin = '0' + bin;
-        }
-        return bin;
-    };
-
     let isEquivalence = true;
-
-    console.time('calculations');
     if (varList.length === 0) {
         let result = calculatePostfix(postfix, {});
         if (result === 0) {
             isEquivalence = false;
         }
-
         showBeconditionalResult(isEquivalence);
         return;
     }
-
-    document.querySelector('.table').style.display = 'block';
-
     if (varList.length < MAX_VARS_TO_RENDER_TABLE) {
         let tableHtml = '<tr class="title">';
         for (let i = 0; i < varList.length; i++) {
@@ -84,47 +61,41 @@ function onCalculatePress() {
         $firstTable.innerHTML = tableHtml;
     } else {
         $firstTable.innerHTML = '';
+        return;
     }
-
     // check for all possible combinations
     for (let current = 0; current < nCombinations; current++) {
-        let combination = decimalToBinary(current);
-
+        let combination = decimalToBinary(current, varList);
         // create vars object with <varName>:<value> pairs
         let vars = {};
         for (let i = 0; i < varList.length; i++) {
             vars[varList[i]] = +combination[i];
         }
-
         // calculate the result
         let result = calculatePostfix(postfix, vars);
-
         // check if the expression is equivalence
         if (result === 0) {
             isEquivalence = false;
         }
-
         // add result to the table
         if (varList.length < MAX_VARS_TO_RENDER_TABLE) {
             let row = $firstTable.insertRow();
-
             if (result === 1) {
                 row.className = 'true';
             }
-
-            for (let i = 0; i < varList.length; i++) {
-                row.insertCell().innerHTML = vars[varList[i]];
+            else {
+                row.className = 'false';
             }
-
-            let resultCell = row.insertCell();
-            resultCell.innerHTML = result;
-            resultCell.className = 'result';
+            for (let i = 0; i < varList.length; i++) {
+                row.insertCell(-1).innerHTML = vars[varList[i]];
+            }
+            row.insertCell(-1).innerHTML = result;
+        } else {
+            return;
         }
     }
-
     showBeconditionalResult(isEquivalence);
 }
-console.timeEnd('calculations');
 
 function showBeconditionalResult(isBeconditional) {
     if (isBeconditional) {
@@ -134,4 +105,13 @@ function showBeconditionalResult(isBeconditional) {
         $isEquivalence.style.display = 'none';
         $isNotEquivalence.style.display = 'block';
     }
+}
+
+function decimalToBinary(dec, varList) {
+    let bin = dec.toString(2);
+    // add leading zeros
+    while (bin.length !== varList.length) {
+        bin = '0' + bin;
+    }
+    return bin;
 }
