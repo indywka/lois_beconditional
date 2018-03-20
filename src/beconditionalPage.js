@@ -111,7 +111,7 @@ function decimalToBinary(dec, varList) {
     let bin = dec.toString(2);
     // add leading zeros
     while (bin.length !== varList.length) {
-        bin = '0' + bin ;
+        bin = '0' + bin;
     }
     return bin;
 }

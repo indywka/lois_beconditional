@@ -198,5 +198,5 @@ function checkFormulaCorrectness(formula) {
     }
 
     // if formula is valid, there should be only single test symbol left
-    return formula == testSymbol;
+    return formula === testSymbol;
 }
